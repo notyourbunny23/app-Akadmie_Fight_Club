@@ -1,1 +1,104 @@
-Test
+import 'dart:math'; // Random Funktion
+
+  // Global vars
+  List<String> firstCommand = [];
+  List<String> secondCommand = [];
+
+class Fight{
+  List<int> actions;
+
+  List<String> speechList = ["seine Fäuste verwandelten das Gesicht seines Gegners in ein Picasso-Gemälde!","hat dem Gegner ins Gesicht geschlagen und ihm eine gratis Clownsnase verpasst.","- meine Schläge sind wie Gedichte - kurz und schmerzhaft!","- ich hoffe, dass der Gegner heute Morgen sein Schmerzmittel genommen hat!","traf den Gegner mit einem Nasentreffer und verwandelte seine Nase in einen Clownshut!","hat dem Gegner ins Gesicht geschlagen und gesagt: 'Willkommen im Club der schmerzhaften Erinnerungen!'","traf den Gegner mit einem Bodyshot und schickte ihn auf eine Bauchlandung!","hat dem Gegner gezeigt, wie man sich im Kreis dreht!","schlug den Gegner mit einem schweren stumpfen Gegenstand","- was soll Ich dazu noch sagen? Das war wie ein Kampf zwischen zwei glatzköpfigen um einen Kamm.","erinnerte sich während des Kampfes an das, was sein Vater beigebracht hatte, aber die Fähigkeit, ein Schwein zu räuchern, war nicht von Nutzen.", "- das war die leiseste Schlägerei der Welt. Es fand bei einem Treffen von Bibliothekaren statt.","hat den Gegner direkt vor der Notaufnahme geschlagen."];
+  List<String> fightersList = ["Sabastian", "Sorin", "Alex", "Elena", "Anja", "Shelly", "Giulia", "Marc", "Yaroslawa", "Paul", "Benni", "Dieson", "Timo", "Ladan", "Hiwa", "Sven", "Michael", "Marvin"];  
+
+  
+  
+  // Konstruktor
+  Fight(this.actions);
+  
+  void act(){
+    print("App-Akademie Fight Club");
+    
+    fightersList.shuffle();
+    speechList.shuffle();
+    
+    // Generating 2 Teams
+    for(int i = 0; i < fightersList.length / 2; i++){ firstCommand.add(fightersList[i]);}
+    for(int i = (fightersList.length / 2).toInt(); i < fightersList.length; i++){ secondCommand.add(fightersList[i]);}
+  
+    print("\n${firstCommand[0]}  Vs.  ${secondCommand[0]}");
+    
+    print("\nFight!");
+    
+    
+    
+    
+    for(int i = 0; i <= actions.length-1; i++){
+      if(actions[i] == 1) {
+        int randomSpeech = Random().nextInt(speechList.length);
+        print("\n${firstCommand[0]} ${speechList[randomSpeech]}");
+        enemy().gotDamage();
+        if(enemy().isAlive() == false && player().isAlive() == true) { Future.delayed(Duration(seconds: 2), () {print("\n${firstCommand[0]} Wins");}); break;}
+      }
+      if(actions[i] == 0) {
+        int randomSpeech = Random().nextInt(speechList.length);
+        print("\n${secondCommand[0]} ${speechList[randomSpeech]}");
+        player().gotDamage();
+        if(player().isAlive() == false && enemy().isAlive() == true) {  Future.delayed(Duration(seconds: 2), () {print("\n${secondCommand[0]} Wins");}); break;}
+      }
+    } 
+  }
+}
+
+int playerHP = 10;
+
+class player{
+
+  void gotDamage(){
+    int randomDamage = Random().nextInt(10);
+    playerHP-=randomDamage;
+    if(playerHP <= 0){ playerHP = 0;}
+    print("${firstCommand[0]} HP: $playerHP");
+  }
+  
+  bool isAlive(){
+    if(playerHP <= 0){
+      return false;
+    }
+    else {
+      return true;
+    }
+  } 
+}
+
+int enemyHP = 10;
+
+class enemy{
+  
+  void gotDamage(){
+    int randomDamage = Random().nextInt(10);
+    enemyHP -=randomDamage;
+    if(enemyHP <= 0){ enemyHP = 0;}
+    print("${secondCommand[0]} HP: $enemyHP");
+  }
+  
+  bool isAlive(){
+    if(enemyHP <= 0){
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+}
+
+void main() {
+  
+// Random Liste
+List<int> randomList = [];
+for (int i = 1; i <= 10; i++){
+  int rnd = Random().nextInt(2);
+  randomList.add(rnd); 
+}
+  // Let's make some noise ;)  
+  Fight(randomList).act();  
+}
